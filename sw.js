@@ -1,8 +1,8 @@
 // install service worker
 // self inside the SW refers to itself the SW
 
-const staticCacheName = "site-static-v4";
-const dynamicCacheName = "site-dymanic-v2";
+const staticCacheName = "site-static-v5";
+const dynamicCacheName = "site-dymanic-v5";
 
 const assets = [
   "/",
