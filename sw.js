@@ -1,12 +1,10 @@
 // install service worker
 // self inside the SW refers to itself the SW
 
-const staticCacheName = "site-static";
+const staticCacheName = "site-static-v2";
 const assets = [
   "/",
   "/index.html",
-  "/pages/about.html",
-  "/pages/contact.html",
   "/js/app.js",
   "/js/ui.js",
   "/js/materialize.min.js",
@@ -35,7 +33,20 @@ self.addEventListener("install", evt => {
 
 // listen for the activate event
 self.addEventListener("activate", evt => {
-  console.log("Service Worker now activated!", evt);
+  //console.log("Service Worker now activated!", evt);
+  // Delete old caches
+  evt.waitUntil(
+    // get all the caches and delete old caches
+    caches.keys().then(keys => {
+      //console.log(keys);
+      // deleting these keys is an async task so we need to return a promise
+      return Promise.all(
+        keys
+          .filter(key => key !== staticCacheName)
+          .map(key => caches.delete(key))
+      );
+    })
+  );
 });
 
 // fetch events
