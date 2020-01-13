@@ -1,8 +1,8 @@
 // install service worker
 // self inside the SW refers to itself the SW
 
-const staticCacheName = "site-static-v5";
-const dynamicCacheName = "site-dymanic-v5";
+const staticCacheName = "site-static-v11";
+const dynamicCacheName = "site-dymanic-v11";
 
 const assets = [
   "/",
@@ -64,26 +64,27 @@ self.addEventListener("activate", evt => {
 });
 
 // fetch events
-/* self.addEventListener("fetch", evt => {
-  //console.log("fetch event", evt);
-  evt.respondWith(
-    caches
-      .match(evt.request)
-      .then(cacheRes => {
-        return (
-          cacheRes ||
-          fetch(evt.request).then(fetchRes => {
-            return caches.open(dynamicCacheName).then(cache => {
-              cache.put(evt.request.url, fetchRes.clone());
-              limitCacheSize(dynamicCacheName, 20);
-              return fetchRes;
-            });
-          })
-        );
-      })
-      .catch(() => {
-        if (evt.request.url.includes(".html"))
-          return caches.match("/pages/fallback.html");
-      })
-  );
-}); */
+self.addEventListener("fetch", evt => {
+  if (!evt.request.url.includes("firestore.googleapis.com")) {
+    evt.respondWith(
+      caches
+        .match(evt.request)
+        .then(cacheRes => {
+          return (
+            cacheRes ||
+            fetch(evt.request).then(fetchRes => {
+              return caches.open(dynamicCacheName).then(cache => {
+                cache.put(evt.request.url, fetchRes.clone());
+                limitCacheSize(dynamicCacheName, 20);
+                return fetchRes;
+              });
+            })
+          );
+        })
+        .catch(() => {
+          if (evt.request.url.includes(".html"))
+            return caches.match("/pages/fallback.html");
+        })
+    );
+  }
+});
