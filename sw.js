@@ -64,7 +64,7 @@ self.addEventListener("activate", evt => {
 });
 
 // fetch events
-self.addEventListener("fetch", evt => {
+/* self.addEventListener("fetch", evt => {
   //console.log("fetch event", evt);
   evt.respondWith(
     caches
@@ -86,4 +86,4 @@ self.addEventListener("fetch", evt => {
           return caches.match("/pages/fallback.html");
       })
   );
-});
+}); */
